@@ -19,7 +19,10 @@ Use React Hooks instead.
 1. Comments should be immediately updated after adding or removing.
 
 Tech stack:
-- HTML5, CSS3, JavaScript, React, Hooks, Fetch, API
+-  HTML5/CSS3
+-  JavaScript
+-  React/Hooks
+-  Fetch/API
 
    [DEMO LINK](https://kshvetsova.github.io/Dynamic_list_of_posts/)
 
