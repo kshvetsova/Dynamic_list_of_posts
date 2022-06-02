@@ -1,4 +1,4 @@
-# React dynamic list of Posts
+# React-Redux dynamic list of Posts
 
 Implement the app to manage post comments.
 
@@ -21,7 +21,7 @@ Use React Hooks instead.
 Tech stack:
 -  HTML5/CSS3
 -  JavaScript
--  React/Hooks
+-  React/Redux/Hooks
 -  Fetch/API
 
    [DEMO LINK](https://kshvetsova.github.io/Dynamic_list_of_posts/)

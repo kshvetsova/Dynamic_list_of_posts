@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import './NewCommentForm.scss';
+import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
-import { PropTypes } from 'prop-types';
+import { setComments, getPostId } from '../../store';
+import './NewCommentForm.scss';
 import { addComment, getPostComments } from '../../api/comments';
 
 const postNew = {
@@ -10,7 +11,9 @@ const postNew = {
   body: '',
 };
 
-export const NewCommentForm = ({ postId, setComments }) => {
+export const NewCommentForm = () => {
+  const dispatch = useDispatch();
+  const postId = useSelector(getPostId);
   const [post, setPost] = useState(postNew);
   const { name, email, body } = post;
 
@@ -22,7 +25,7 @@ export const NewCommentForm = ({ postId, setComments }) => {
       });
       const res = await getPostComments(postId);
 
-      setComments(res);
+      dispatch(setComments(res));
       setPost(postNew);
     }
   };
@@ -43,6 +46,7 @@ export const NewCommentForm = ({ postId, setComments }) => {
           type="text"
           name="name"
           placeholder="Your name"
+          pattern="\w+"
           className="NewCommentForm__input"
           value={name}
           onChange={handleChange}
@@ -51,7 +55,7 @@ export const NewCommentForm = ({ postId, setComments }) => {
 
       <div className="form-field">
         <input
-          type="text"
+          type="email"
           name="email"
           placeholder="Your email"
           className="NewCommentForm__input"
@@ -80,9 +84,4 @@ export const NewCommentForm = ({ postId, setComments }) => {
       </button>
     </form>
   );
-};
-
-NewCommentForm.propTypes = {
-  postId: PropTypes.number.isRequired,
-  setComments: PropTypes.func.isRequired,
 };

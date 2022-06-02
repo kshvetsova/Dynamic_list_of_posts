@@ -3,7 +3,9 @@ import { request } from './api';
 export const getUserPosts = async(userId) => {
   const result = await request('posts');
 
-  return result.filter(res => (+userId ? res.userId === +userId : res));
+  return result.filter(res => (
+    +userId ? res.userId === +userId : res.userId
+  ));
 };
 
 export const getPostDetails = async(postId) => {

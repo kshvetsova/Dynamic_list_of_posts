@@ -1,14 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import './PostsList.scss';
-import { PropTypes } from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  setPosts,
+  setPostId,
+  getPosts,
+  getPostId,
+  getUserId,
+} from '../../store';
 import { getUserPosts } from '../../api/posts';
 import { Loader } from '../Loader';
 
-export const PostsList = ({ userId, setPostId, postId }) => {
-  const [posts, setPosts] = useState(null);
+export const PostsList = () => {
+  const dispatch = useDispatch();
+  const posts = useSelector(getPosts);
+  const userId = useSelector(getUserId);
+  const postId = useSelector(getPostId);
 
   useEffect(() => {
-    getUserPosts(userId).then(setPosts);
+    getUserPosts(userId).then(res => dispatch(setPosts(res)));
   }, [userId]);
 
   return !posts ? <Loader /> : (
@@ -26,7 +36,7 @@ export const PostsList = ({ userId, setPostId, postId }) => {
               <button
                 type="button"
                 className="PostsList__button button"
-                onClick={() => setPostId(post.id)}
+                onClick={() => dispatch(setPostId(post.id))}
               >
                 Open
               </button>
@@ -34,7 +44,7 @@ export const PostsList = ({ userId, setPostId, postId }) => {
               <button
                 type="button"
                 className="button"
-                onClick={() => setPostId(null)}
+                onClick={() => dispatch(setPostId(null))}
               >
                 Close
               </button>
@@ -44,14 +54,4 @@ export const PostsList = ({ userId, setPostId, postId }) => {
       </ul>
     </div>
   );
-};
-
-PostsList.propTypes = {
-  userId: PropTypes.string.isRequired,
-  postId: PropTypes.number,
-  setPostId: PropTypes.func.isRequired,
-};
-
-PostsList.defaultProps = {
-  postId: null,
 };

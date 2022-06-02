@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getPostId, getUserId, setUserId, setPostId } from './store';
 import './App.scss';
 import './styles/general.scss';
 import { PostsList } from './components/PostsList';
 import { PostDetails } from './components/PostDetails';
 
 export const App = () => {
-  const [value, setValue] = useState('');
-  const [postId, setPostId] = useState(null);
+  const userId = useSelector(getUserId);
+  const dispatch = useDispatch();
+  const postId = useSelector(getPostId);
 
   return (
     <div className="App">
@@ -16,8 +19,11 @@ export const App = () => {
 
           <select
             className="App__user-selector"
-            value={value}
-            onChange={({ target }) => setValue(target.value)}
+            value={userId}
+            onChange={({ target }) => {
+              dispatch(setUserId(target.value));
+              dispatch(setPostId(null));
+            }}
           >
             <option value="0">All users</option>
             <option value="1">Leanne Graham</option>
@@ -29,20 +35,15 @@ export const App = () => {
             <option value="7">Kurtis Weissnat</option>
             <option value="8">Nicholas Runolfsdottir V</option>
             <option value="9">Glenna Reichert</option>
-            <option value="10">Leanne Graham</option>
           </select>
         </label>
       </header>
       <main className="App__main">
         <div className="App__sidebar">
-          <PostsList
-            userId={value}
-            setPostId={setPostId}
-            postId={postId}
-          />
+          <PostsList />
         </div>
         <div className="App__content">
-          {postId && <PostDetails postId={postId} />}
+          {postId && <PostDetails />}
         </div>
       </main>
     </div>

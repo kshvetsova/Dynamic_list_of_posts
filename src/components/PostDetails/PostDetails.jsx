@@ -1,20 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { PropTypes } from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
+import {
+  getDetails,
+  setDetails,
+  getPostId,
+  getComments,
+  setComments,
+} from '../../store';
 import { NewCommentForm } from '../NewCommentForm';
 import './PostDetails.scss';
 import { getPostDetails } from '../../api/posts';
 import { getPostComments, deleteComment } from '../../api/comments';
 import { Loader } from '../Loader';
 
-export const PostDetails = ({ postId }) => {
-  const [details, setDetails] = useState(null);
-  const [comments, setComments] = useState(null);
+export const PostDetails = () => {
+  const details = useSelector(getDetails);
+  const postId = useSelector(getPostId);
+  const comments = useSelector(getComments);
+  const dispatch = useDispatch();
   const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
-    getPostDetails(postId).then(setDetails);
-    getPostComments(postId).then(setComments);
+    getPostDetails(postId).then(res => dispatch(setDetails(res)));
+    getPostComments(postId).then(res => dispatch(setComments(res)));
   }, [postId]);
 
   return !comments || !details ? <Loader /> : (
@@ -44,7 +53,8 @@ export const PostDetails = ({ postId }) => {
                 className="PostDetails__remove-button button"
                 onClick={async() => {
                   await deleteComment(comment.id);
-                  getPostComments(postId).then(setComments);
+                  getPostComments(postId)
+                    .then(res => dispatch(setComments(res)));
                 }}
               >
                 X
@@ -57,13 +67,9 @@ export const PostDetails = ({ postId }) => {
 
       <section>
         <div className="PostDetails__form-wrapper">
-          <NewCommentForm postId={postId} setComments={setComments} />
+          <NewCommentForm />
         </div>
       </section>
     </div>
   );
-};
-
-PostDetails.propTypes = {
-  postId: PropTypes.number.isRequired,
 };
