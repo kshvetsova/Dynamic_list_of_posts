@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
-import { setComments, getPostId } from '../../store';
+import { actions, selectors } from '../../store';
 import './NewCommentForm.scss';
 import { addComment, getPostComments } from '../../api/comments';
 
@@ -13,7 +13,7 @@ const postNew = {
 
 export const NewCommentForm = () => {
   const dispatch = useDispatch();
-  const postId = useSelector(getPostId);
+  const postId = useSelector(selectors.getPostId);
   const [post, setPost] = useState(postNew);
   const { name, email, body } = post;
 
@@ -25,7 +25,7 @@ export const NewCommentForm = () => {
       });
       const res = await getPostComments(postId);
 
-      dispatch(setComments(res));
+      dispatch(actions.setComments(res));
       setPost(postNew);
     }
   };

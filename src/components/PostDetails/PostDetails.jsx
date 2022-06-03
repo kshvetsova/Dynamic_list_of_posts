@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
-import {
-  getDetails,
-  setDetails,
-  getPostId,
-  getComments,
-  setComments,
-} from '../../store';
+import { actions, selectors } from '../../store';
 import { NewCommentForm } from '../NewCommentForm';
 import './PostDetails.scss';
 import { getPostDetails } from '../../api/posts';
@@ -15,15 +9,15 @@ import { getPostComments, deleteComment } from '../../api/comments';
 import { Loader } from '../Loader';
 
 export const PostDetails = () => {
-  const details = useSelector(getDetails);
-  const postId = useSelector(getPostId);
-  const comments = useSelector(getComments);
+  const details = useSelector(selectors.getDetails);
+  const postId = useSelector(selectors.getPostId);
+  const comments = useSelector(selectors.getComments);
   const dispatch = useDispatch();
   const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
-    getPostDetails(postId).then(res => dispatch(setDetails(res)));
-    getPostComments(postId).then(res => dispatch(setComments(res)));
+    getPostDetails(postId).then(res => dispatch(actions.setDetails(res)));
+    getPostComments(postId).then(res => dispatch(actions.setComments(res)));
   }, [postId]);
 
   return !comments || !details ? <Loader /> : (
@@ -54,7 +48,7 @@ export const PostDetails = () => {
                 onClick={async() => {
                   await deleteComment(comment.id);
                   getPostComments(postId)
-                    .then(res => dispatch(setComments(res)));
+                    .then(res => dispatch(actions.setComments(res)));
                 }}
               >
                 X

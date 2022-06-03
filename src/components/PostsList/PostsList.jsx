@@ -1,24 +1,18 @@
 import React, { useEffect } from 'react';
 import './PostsList.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  setPosts,
-  setPostId,
-  getPosts,
-  getPostId,
-  getUserId,
-} from '../../store';
+import { actions, selectors } from '../../store';
 import { getUserPosts } from '../../api/posts';
 import { Loader } from '../Loader';
 
 export const PostsList = () => {
   const dispatch = useDispatch();
-  const posts = useSelector(getPosts);
-  const userId = useSelector(getUserId);
-  const postId = useSelector(getPostId);
+  const posts = useSelector(selectors.getPosts);
+  const userId = useSelector(selectors.getUserId);
+  const postId = useSelector(selectors.getPostId);
 
   useEffect(() => {
-    getUserPosts(userId).then(res => dispatch(setPosts(res)));
+    getUserPosts(userId).then(res => dispatch(actions.setPosts(res)));
   }, [userId]);
 
   return !posts ? <Loader /> : (
@@ -36,7 +30,7 @@ export const PostsList = () => {
               <button
                 type="button"
                 className="PostsList__button button"
-                onClick={() => dispatch(setPostId(post.id))}
+                onClick={() => dispatch(actions.setPostId(post.id))}
               >
                 Open
               </button>
@@ -44,7 +38,7 @@ export const PostsList = () => {
               <button
                 type="button"
                 className="button"
-                onClick={() => dispatch(setPostId(null))}
+                onClick={() => dispatch(actions.setPostId(null))}
               >
                 Close
               </button>

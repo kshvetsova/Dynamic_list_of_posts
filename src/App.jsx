@@ -1,15 +1,15 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getPostId, getUserId, setUserId, setPostId } from './store';
+import { actions, selectors } from './store';
 import './App.scss';
 import './styles/general.scss';
 import { PostsList } from './components/PostsList';
 import { PostDetails } from './components/PostDetails';
 
 export const App = () => {
-  const userId = useSelector(getUserId);
+  const userId = useSelector(selectors.getUserId);
   const dispatch = useDispatch();
-  const postId = useSelector(getPostId);
+  const postId = useSelector(selectors.getPostId);
 
   return (
     <div className="App">
@@ -21,8 +21,8 @@ export const App = () => {
             className="App__user-selector"
             value={userId}
             onChange={({ target }) => {
-              dispatch(setUserId(target.value));
-              dispatch(setPostId(null));
+              dispatch(actions.setUserId(target.value));
+              dispatch(actions.setPostId(null));
             }}
           >
             <option value="0">All users</option>

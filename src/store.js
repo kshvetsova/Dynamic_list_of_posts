@@ -14,27 +14,31 @@ const SET_USER_ID = 'SET_USER_ID';
 const SET_DETAILS = 'SET_DETAILS';
 const SET_COMMENTS = 'SET_COMENTS';
 
-export const setPosts = posts => ({
-  type: SET_POSTS, posts,
-});
-export const setPostId = postId => ({
-  type: SET_POST_ID, postId,
-});
-export const setUserId = userId => ({
-  type: SET_USER_ID, userId,
-});
-export const setDetails = details => ({
-  type: SET_DETAILS, details,
-});
-export const setComments = comments => ({
-  type: SET_COMMENTS, comments,
-});
+export const actions = {
+  setPosts: posts => ({
+    type: SET_POSTS, posts,
+  }),
+  setPostId: postId => ({
+    type: SET_POST_ID, postId,
+  }),
+  setUserId: userId => ({
+    type: SET_USER_ID, userId,
+  }),
+  setDetails: details => ({
+    type: SET_DETAILS, details,
+  }),
+  setComments: comments => ({
+    type: SET_COMMENTS, comments,
+  }),
+};
 
-export const getPosts = state => state.posts;
-export const getPostId = state => state.postId;
-export const getUserId = state => state.userId;
-export const getDetails = state => state.details;
-export const getComments = state => state.comments;
+export const selectors = {
+  getPosts: state => state.posts,
+  getPostId: state => state.postId,
+  getUserId: state => state.userId,
+  getDetails: state => state.details,
+  getComments: state => state.comments,
+};
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
