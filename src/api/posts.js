@@ -1,11 +1,16 @@
 import { request } from './api';
 
+// eslint-disable-next-line consistent-return
 export const getUserPosts = async(userId) => {
-  const result = await request('posts');
+  try {
+    const result = await request('posts');
 
-  return result.filter(res => (
-    +userId ? res.userId === +userId : res.userId
-  ));
+    result.filter(res => (
+      +userId ? res.userId === +userId : res.userId
+    ));
+  } catch (error) {
+    return [];
+  }
 };
 
 export const getPostDetails = async(postId) => {
