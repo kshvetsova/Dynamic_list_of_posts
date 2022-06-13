@@ -15,7 +15,7 @@ export const PostsList = () => {
     getUserPosts(userId).then(res => dispatch(actions.setPosts(res)));
   }, [userId]);
 
-  return posts.length === 0 ? <Loader /> : (
+  return !posts || posts.length === 0 ? <Loader /> : (
     <div className="PostsList">
 
       <h2>{`Posts: ${posts.length}`}</h2>
